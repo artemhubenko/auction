@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    
+    <div class="listing-grid">
+        {% for lot in lots %}
+            <div class="lot">
+                <div class="picture">
+                    <a href="{% url 'lot' lot.id %}">
+                        <img src="{{ lot.image_url|default:lot.category.default_image }}">
+                    </a>
+                </div>
+
+                <div class="item-content">
+                    <h3>
+                        <a class="item-name" href="{% url 'lot' lot.id %}">
+                            {{ lot.name }}
+                        </a>
+                    </h3>
+                    <p>{{ lot.description }}</p>
+                    <p>Starting at: ${{ lot.starting_price }}</p>
+                    <div class="bids">
+                        {% if lot.current.bid %}
+                            <p>Current bid: ${{ lot.current_bid }}</p>
+                        {% else %}
+                            <p>No bids yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="active-bar">
+                {% if lot.is_active %}
+                    Status: Active
+                {% else %}
+                    Statis: Closed
+                {% endif %}
+            </div>
+            </div>
+        {% endfor %}
+    </div>  
+{% endblock %}

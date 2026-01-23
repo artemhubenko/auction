@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Create a Lot</title>
+        <link rel="stylesheet" href="{% static 'auctions/styles1.css' %}">
+    </head>
+    <body>
+        <h2>New Listing</h2>
+        <div class="lot-field">
+            <form action="{% url 'create' %}" method="post">
+                {% csrf_token %}
+
+                <label for="name">Enter the name:</label><br>
+                <input type="text" id="name" name="name"><br>
+
+                <label for="description">Enter the description:</label><br>
+                <textarea id="description" name="description" rows="8" cols="43"></textarea><br>
+
+                <label for="caregory">Select one of the following Categories</label><br>
+                <select id="category" name="category">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category }}</option>
+                    {% endfor %}
+                </select><br>
+
+                <label for="starting_price">Enter your starting price:</label><br>
+                <input type="text" id="starting_price" name="starting_price"><br>
+
+                <label for="image_url">Please enter the link of the Picture (optional):</label><br>
+                <input type="text" id="image_url" name="image_url"><br>
+
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>

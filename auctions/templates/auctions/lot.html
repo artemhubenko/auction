@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lot #{{ lot.id }}</title>
+    <link rel="stylesheet" href="{% static 'auctions/styles_lot.css' %}">
+</head>
+<body>
+
+<a class="back_button" href="{% url 'index' %}">❮ Back to Listings</a>
+
+<div class="page">
+
+    <!-- LEFT COLUMN -->
+    <div class="lot-main">
+
+        <h1 class="lot-title">{{ lot.name }}</h1>
+
+        <div class="gallery">
+            <div class="main-image">
+                <img src="{{ lot.image_url|default:lot.category.default_image }}" alt="Picture">
+            </div>
+        </div>
+
+        <div class="lot-description">
+            <h3>Description</h3>
+            <p>
+                {{ lot.description }}
+            </p>
+        </div>
+
+    </div>
+
+  <!-- RIGHT COLUMN -->
+    <div class="bid-panel">
+
+        <div class="price-block">
+            <div class="label">Starting price</div>
+            <div class="price">{{ lot.starting_price }}</div>
+        </div>
+
+        <div class="price-block">
+            <div class="label">Current bid:</div>
+                <div class="price">{{ lot.current_bid.amount|default:"None" }}</div>
+        </div>
+
+        <div class="bids-info">
+            <span>Total bids: {{ bids }}</span>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <div class="bid-form">
+            <form action="{% url 'bid' lot.id %}" method="post">
+            {% csrf_token %}
+                <input name="bid_amount" type="number" placeholder="Enter your bid:" step="0.01">
+                <input type="submit">
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
