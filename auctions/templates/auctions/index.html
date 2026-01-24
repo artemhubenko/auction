@@ -21,18 +21,21 @@
                     <p>{{ lot.description }}</p>
                     <p>Starting at: ${{ lot.starting_price }}</p>
                     <div class="bids">
-                        {% if lot.current.bid %}
-                            <p>Current bid: ${{ lot.current_bid }}</p>
-                        {% else %}
-                            <p>No bids yet.</p>
-                        {% endif %}
+                        <p>
+                            {% if lot.current_bid %}
+                                Current bid:
+                                ${{ lot.current_bid.amount }}
+                            {% else %}
+                                No bids yet.
+                            {% endif %}
+                        </p>
                     </div>
                 </div>
                 <div class="active-bar">
                 {% if lot.is_active %}
                     Status: Active
                 {% else %}
-                    Statis: Closed
+                    Status: Closed
                 {% endif %}
             </div>
             </div>

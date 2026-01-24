@@ -50,7 +50,9 @@
         </div>
         {% if messages %}
             {% for message in messages %}
-                <p style="color: red;">{{ message }}</p>
+                <div class ="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
 
@@ -81,7 +83,55 @@
             {% endif %}
         </form>
     </div>
+    
+    {% if lot.is_active %}
+        <div class="close-form">
+            <form action="{% url 'close' lot.id %}" method ="post">
+                {% csrf_token %}
 
+                {% if user == lot.owner %}
+                    <button type="submit" class="close-btn">
+                        Close Listing
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+
+    {% if messages.tags == 'success' %}
+        {% for message in messages %}
+            <div class="overlay">
+                <input type="checkbox" id="close-popup" class="close-input">
+                <div class="popup">
+                    <label for="close-popup" class="close-btn">&times;</label>
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="comments-section">
+    <h2>Comments</h2>
+
+    <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="author">{{ comment.owner }}</span>
+                    <span class="date">{{ comment.timestamp }}</span>
+                </div>
+                <div class="comment-body">
+                    {{ comment.content }}
+                </div>
+            </div>
+        {% endfor %}
+
+    <form class="comment-form" action="{% url 'comment' lot.id %}" method="post">
+    {% csrf_token %}
+        <textarea placeholder="Write your comment..." rows="3" name="comment_text"></textarea>
+        <button type="submit">Post Comment</button>
+    </form>
 </div>
 
 </body>

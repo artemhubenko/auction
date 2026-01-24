@@ -169,3 +169,153 @@ body {
 }
 
 
+.messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: fadeOut 4s forwards;
+}
+
+.alert.error {
+    background-color: #e74c3c;
+}
+
+.alert.success {
+    background-color: #2ecc71;
+}
+
+/* Автоисчезновение */
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    70% {opacity: 1;}
+    100% {opacity: 0; display: none;}
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* затемнение фона */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    font-size: 16px;
+}
+
+/* кнопка закрытия */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* скрываем чекбокс */
+.close-input {
+    display: none;
+}
+
+/* когда чекбокс отмечен — скрываем popup */
+.close-input:checked + .popup {
+    display: none;
+}
+
+.comment-view {
+  border: 1px, gray, solid;
+}
+
+.comments-section {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+.comments-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.comments-list {
+    margin-bottom: 20px;
+}
+
+.comment {
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db; /* маленькая цветная полоска */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.comment-header .author {
+    font-weight: bold;
+    color: #222;
+}
+
+.comment-body {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.comment-form button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comment-form button:hover {
+    background: #2980b9;
+}

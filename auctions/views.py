@@ -12,7 +12,7 @@ from .models import User, Lot, Bid, Comment, Category
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "lots": Lot.objects.all(),
+        "lots": Lot.objects.all().order_by('-is_active', '-id'),
     })
 
 @login_required(login_url='/login')
@@ -88,15 +88,22 @@ def register(request):
 
 def lot(request, id):
     lot = Lot.objects.get(pk=int(id))
+    if request.user == lot.winner:
+        messages.success(request, "Congratulations! You won this auction!")
     return render(request, "auctions/lot.html", {
         "lot": lot,
         "bids": Bid.objects.filter(lot=lot).count(),
+        "comments": Comment.objects.filter(lot=lot).all(),
     })
 
 @login_required(login_url='/login')
 def bid(request, id):
     lot = Lot.objects.get(pk=int(id))
     amount = Decimal(request.POST["bid_amount"])
+
+    if not lot.is_active: 
+        messages.error(request, "Listing is already closed.")
+        return redirect("lot", id=id)
     if lot.current_bid:
         if amount <= lot.current_bid.amount:
             messages.error(request, "Your bid should be greater than the previous Bid")
@@ -115,7 +122,8 @@ def bid(request, id):
         lot.current_bid = new_bid
         lot.save()
         return HttpResponseRedirect(reverse('lot', args=(id, )))
-    
+
+@login_required(login_url='/login')
 def watchlist(request, id):
     lot = Lot.objects.get(pk=id)
     user = request.user
@@ -126,3 +134,35 @@ def watchlist(request, id):
             user.watchlist.remove(lot)
 
     return redirect("lot", id=id)
+
+def close(request, id):
+    lot = Lot.objects.get(pk=id)
+    user = request.user
+    
+    if request.method == "POST":
+        if user == lot.owner:
+            if not lot.current_bid: 
+                lot.is_active = False
+                lot.save()
+                return redirect("index")
+            
+            lot.is_active = False
+            lot.winner = lot.current_bid.bidder
+            lot.save()
+            return redirect("index")
+        else: 
+            messages.error(request, "You are not the owner of this Listing")
+            return redirect("lot", id=id)
+        
+@login_required(login_url='/login')
+def comment(request, id):
+    lot = Lot.objects.get(pk=id)
+    user = request.user
+    if request.method == "POST":
+        new_com = Comment.objects.create(
+            lot=lot,
+            owner=user,
+            content=request.POST["comment_text"],
+        )
+        messages.success(request, "Your comment has been successfully added.")
+        return redirect("lot", id=id)
