@@ -117,3 +117,55 @@ body {
     color: inherit;
     width: 150px;
 }
+
+.watchlist {
+  position: absolute;
+  right: 570px;
+  top:125px;
+}
+
+.heart-btn {
+    position: relative;
+    background: none;
+    border: 2px solid red;
+    font-size: 24px;
+    cursor: pointer;
+    color: red;       /* цвет сердца, если не в списке */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background 0.2s;
+}
+
+.heart-btn.active {
+    color: white;
+    background-color: red;  /* сердце красное, если в списке */
+    border: 2px solid red;
+}
+
+/* Tooltip */
+.heart-btn .tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    transition: opacity 0.2s;
+}
+
+.heart-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+

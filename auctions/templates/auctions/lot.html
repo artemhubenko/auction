@@ -64,6 +64,24 @@
 
     </div>
 
+    <div class="watchlist">
+        <form action="{% url 'watchlist' lot.id %}" method="post">
+            {% csrf_token %}
+
+            {% if lot not in user.watchlist.all %}
+                <button type="submit" class="heart-btn">
+                    <span class="tooltip">Subscribe</span>
+                    ♥
+                </button>
+            {% else  %}
+                <button type="submit" class="heart-btn active">
+                    <span class="tooltip">Unsubscribe</span>
+                    ♥
+                </button>
+            {% endif %}
+        </form>
+    </div>
+
 </div>
 
 </body>

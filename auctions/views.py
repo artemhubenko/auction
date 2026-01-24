@@ -93,6 +93,7 @@ def lot(request, id):
         "bids": Bid.objects.filter(lot=lot).count(),
     })
 
+@login_required(login_url='/login')
 def bid(request, id):
     lot = Lot.objects.get(pk=int(id))
     amount = Decimal(request.POST["bid_amount"])
@@ -114,3 +115,14 @@ def bid(request, id):
         lot.current_bid = new_bid
         lot.save()
         return HttpResponseRedirect(reverse('lot', args=(id, )))
+    
+def watchlist(request, id):
+    lot = Lot.objects.get(pk=id)
+    user = request.user
+    if request.method == "POST":
+        if lot not in user.watchlist.all():
+            user.watchlist.add(lot)
+        else:
+            user.watchlist.remove(lot)
+
+    return redirect("lot", id=id)
