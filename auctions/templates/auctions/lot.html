@@ -118,7 +118,12 @@
         {% for comment in comments %}
             <div class="comment">
                 <div class="comment-header">
-                    <span class="author">{{ comment.owner }}</span>
+                    <span class="author">
+                        {{ comment.owner }}
+                        {% if comment.owner == lot.owner %}
+                        <span class="lot-property">owner</span>
+                        {% endif %}
+                    </span>
                     <span class="date">{{ comment.timestamp }}</span>
                 </div>
                 <div class="comment-body">

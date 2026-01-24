@@ -11,8 +11,17 @@ from .models import User, Lot, Bid, Comment, Category
 
 
 def index(request):
+    category_id = request.GET.get("category")
+    lots = Lot.objects.all()
+
+    if category_id:
+        lots = lots.filter(category_id=category_id)
+    lots = lots.order_by("-is_active", "-id")
+
     return render(request, "auctions/index.html", {
-        "lots": Lot.objects.all().order_by('-is_active', '-id'),
+        "lots": lots,
+        "categories": Category.objects.all(),
+        "selected_category": category_id,
     })
 
 @login_required(login_url='/login')

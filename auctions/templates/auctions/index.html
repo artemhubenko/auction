@@ -3,6 +3,21 @@
 {% block body %}
     <h2>Active Listings</h2>
     
+    <div class="category-view">
+        <div class="filter">
+            <form method="get">
+                <select name="category">
+                    <option value="">All</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category.id|stringformat:"s" == selected_category %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter">
+            </form><br>
+        </div>
+    </div>
     <div class="listing-grid">
         {% for lot in lots %}
             <div class="lot">
