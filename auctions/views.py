@@ -158,7 +158,11 @@ def close(request, id):
             lot.is_active = False
             lot.winner = lot.current_bid.bidder
             lot.save()
-            return redirect("index")
+            next_url = request.POST.get("next")
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect("index")
         else: 
             messages.error(request, "You are not the owner of this Listing")
             return redirect("lot", id=id)
@@ -175,3 +179,23 @@ def comment(request, id):
         )
         messages.success(request, "Your comment has been successfully added.")
         return redirect("lot", id=id)
+
+@login_required(login_url='/login')
+def profile(request):
+    user = request.user
+    filter_type = request.GET.get("filter")
+    if filter_type == "mine":
+        lots = Lot.objects.filter(owner=user)
+    elif filter_type == "liked":
+        lots = user.watchlist.all()
+    elif filter_type == "won":
+        lots = Lot.objects.filter(winner=user)
+    else: 
+        lots = Lot.objects.filter(owner=user)
+    
+    return render(request, "auctions/profile.html", {
+        "user": user,
+        "watchlist": user.watchlist.all(),
+        "lots": lots,
+        "filter_type": filter_type,
+    })

@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{ user }}'s Profile</title>
+        <link rel="stylesheet" href="{% static 'auctions/styles_profile.css' %}">
+    </head>
+    <body>
+        <div class="app">
+            <div class="header-main">
+                <div class="header">
+                    <div class="header-logo">
+                        <a href="{% url 'index' %}">
+                            <img src="https://cdn.worldvectorlogo.com/logos/auctioncom.svg" alt="Logo">
+                        </a>
+                    </div>
+                    <div class="nav-options">
+                        <div class="lots-button item">
+                            <a href="{% url 'index' %}">Lots</a>
+                        </div>
+                        <div class="item">
+                            <a href="{% url 'index' %}">Listings</a>
+                        </div>
+                        <div class="item">
+                            <a href="{% url 'index' %}">Auctions</a>
+                        </div>
+                        <div class="create-button item">
+                            <a href="{% url 'create' %}">Create a Listing</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-page">
+                <h1>My profile</h1>
+                <div class="main-page-content">
+                    <div class="profile-info">
+                        <div class="profile-item">Username: {{ user }}</div>
+                        <div class="profile-item">Id: {{ user.id }}</div>
+                        <div class="profile-item">{{ user.email }}</div>
+                        <div class="profile-item"> Date joined: {{ user.date_joined }}</div>
+                        <div class="logout-item">
+                            <a href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </div>
+
+                        <div class="option-bar">
+                            <ul class="nav">
+                                <li><a href="/profile/?filter=mine">My Lots</a></li>
+                                <li><a href="/profile/?filter=liked">Watchlist</a></li>
+                                <li><a href="/profile/?filter=won">Won lots</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="main-app-content">
+                        <div class="app-header">
+                            <h2>
+                                {% if filter_type == "mine" %}
+                                    My Lots
+                                {% elif filter_type == "liked" %}
+                                    My Watchlist
+                                {% elif filter_type == "won" %}
+                                    My winning bids
+                                {% else %}
+                                    My Lots
+                                {% endif %}
+                            </h2>
+                        </div>
+                        <div class="app-content">
+                        {% for lot in lots %}
+                            <div class="content-item">
+                                <div class="picture">
+                                    <a href="{% url 'lot' lot.id %}">
+                                        <img src="{{ lot.image_url|default:lot.category.default_image }}">
+                                    </a>
+                                </div>
+
+                                <div class="item-content">
+                                    <h3>
+                                        <a class="item-name" href="{% url 'lot' lot.id %}">
+                                            {{ lot.name }}
+                                        </a>
+                                    </h3>
+                                    <div class="bids">
+                                        <p>
+                                            {% if lot.current_bid %}
+                                                Current bid:
+                                                ${{ lot.current_bid.amount }}
+                                            {% else %}
+                                                No bids yet.
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="active-bar">
+                                {% if lot.is_active %}
+                                    Status: Active
+                                    <form method="post" action="{% url 'close' lot.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{% url 'profile' %}">
+                                        <button type="submit" class="close-btn">Close</button>
+                                    </form>
+                                {% else %}
+                                    Status: Closed
+                                {% endif %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            No lots yet.
+                        {% endfor %}
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

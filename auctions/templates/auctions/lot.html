@@ -17,6 +17,24 @@
 
         <h1 class="lot-title">{{ lot.name }}</h1>
 
+        <div class="watchlist">
+            <form action="{% url 'watchlist' lot.id %}" method="post">
+                {% csrf_token %}
+
+                {% if lot not in user.watchlist.all %}
+                    <button type="submit" class="heart-btn">
+                        <span class="tooltip">Subscribe</span>
+                        ♥
+                    </button>
+                {% else  %}
+                    <button type="submit" class="heart-btn active">
+                        <span class="tooltip">Unsubscribe</span>
+                        ♥
+                    </button>
+                {% endif %}
+            </form>
+        </div>
+
         <div class="gallery">
             <div class="main-image">
                 <img src="{{ lot.image_url|default:lot.category.default_image }}" alt="Picture">
@@ -66,23 +84,7 @@
 
     </div>
 
-    <div class="watchlist">
-        <form action="{% url 'watchlist' lot.id %}" method="post">
-            {% csrf_token %}
 
-            {% if lot not in user.watchlist.all %}
-                <button type="submit" class="heart-btn">
-                    <span class="tooltip">Subscribe</span>
-                    ♥
-                </button>
-            {% else  %}
-                <button type="submit" class="heart-btn active">
-                    <span class="tooltip">Unsubscribe</span>
-                    ♥
-                </button>
-            {% endif %}
-        </form>
-    </div>
     
     {% if lot.is_active %}
         <div class="close-form">
@@ -90,6 +92,7 @@
                 {% csrf_token %}
 
                 {% if user == lot.owner %}
+                    <input type="hidden" name="next" value="{% url 'index' %}">
                     <button type="submit" class="close-btn">
                         Close Listing
                     </button>

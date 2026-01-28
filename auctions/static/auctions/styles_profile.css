@@ -1,0 +1,182 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header-main {
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid lightgray;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-page {
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+.main-page-content {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 80px;
+    color: inherit;
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+.nav-options {
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+    align-items: center;
+    color: #577370;
+}
+
+.nav-options a {
+    font-size: 22px;
+}
+
+
+.header-logo {
+    width: 300px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    max-width: 100%;
+    height: auto;
+}
+.create-button {
+    background-color: #79be00;
+    width: 240px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+    margin-left: auto;
+}
+
+.create-button:hover {
+    background-color: #84ca08;
+}
+.create-button a {
+    color: white;
+    text-decoration: none;
+}
+
+.create-button a:visited {
+    color: white;
+}
+
+.profile-info {
+    height: 220px;
+    font-size: 18px;
+    background-color: #23adad49;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-item {
+    padding: 10px;
+    padding-top: 10px;
+}
+
+.item {
+    margin-right: 10px;
+}
+
+.app-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+
+div .picture {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;    
+    overflow: hidden;
+}
+
+.picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+
+.content-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    height: 320px;
+}
+
+.app-header h2 {
+    padding-left: 20px;
+}
+
+.logout-item {
+    display: flex;
+    justify-content: center;
+}
+
+.item-content h3 {
+    margin-left: 5px;
+}
+
+.item-content p {
+    margin-left: 5px;
+}
+
+.active-bar {
+    margin-left: 2px;
+    display: flex;
+    gap: 20px;   
+}
+
+.close-btn {
+    padding: 3px 20px;
+
+}
+
+.option-bar {
+    margin-top: 40px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.option-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.option-bar li {
+    margin-bottom: 10px;
+}
+
+.option-bar li:last-child {
+  margin-bottom: 0;
+}
+
+.option-bar a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid gray;
+}
